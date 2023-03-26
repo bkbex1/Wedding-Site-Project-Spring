@@ -1,4 +1,4 @@
-package bg.softuni.BattleShips;
+package bg.softuni.WeddingSite;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

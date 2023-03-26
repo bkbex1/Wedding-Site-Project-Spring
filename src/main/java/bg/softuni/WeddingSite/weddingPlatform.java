@@ -1,4 +1,4 @@
-package bg.softuni.BattleShips;
+package bg.softuni.WeddingSite;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

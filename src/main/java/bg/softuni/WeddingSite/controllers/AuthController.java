@@ -1,8 +1,5 @@
-package bg.softuni.BattleShips.controllers;
+package bg.softuni.WeddingSite.controllers;
 
-import bg.softuni.BattleShips.models.dtos.UserLoginDTO;
-import bg.softuni.BattleShips.models.dtos.UserRegistrationDTO;
-import bg.softuni.BattleShips.services.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

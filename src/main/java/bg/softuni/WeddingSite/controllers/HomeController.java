@@ -1,4 +1,4 @@
-package bg.softuni.BattleShips.controllers;
+package bg.softuni.WeddingSite.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
