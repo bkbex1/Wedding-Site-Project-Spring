@@ -1,5 +1,7 @@
 package bg.softuni.WeddingSite.controllers;
 
+import bg.softuni.WeddingSite.models.dtos.UserRegistrationDTO;
+import bg.softuni.WeddingSite.services.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,72 +9,52 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class AuthController {
 
-    private AuthService authService;
+    private final AuthService authService;
 
     @Autowired
     public AuthController(AuthService authService) {
         this.authService = authService;
     }
 
-    @ModelAttribute("registrationDTO")
-    public UserRegistrationDTO initRegForm(){
+    @ModelAttribute("userRegistrationDTO")
+    public UserRegistrationDTO initForm() {
         return new UserRegistrationDTO();
     }
 
     @GetMapping("/register")
-    public String register(){
+    public String register() {
         return "register";
     }
 
     @PostMapping("/register")
-    public String register(@Valid UserRegistrationDTO registrationDTO,
-                           BindingResult bindingResult,
-                           RedirectAttributes redirectAttributes){
+    public String doRegister(@Valid UserRegistrationDTO userRegistrationDTO,
+                             BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes) {
+        System.out.println(userRegistrationDTO.toString());
 
-        if (bindingResult.hasErrors() || !this.authService.register(registrationDTO)){
-            redirectAttributes.addFlashAttribute("registrationDTO", registrationDTO);
-            redirectAttributes.addFlashAttribute(
-                    "org.spring.validation.BindingResult.registrationDTO", bindingResult);
-            return "redirect:/register";
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("userRegistrationDTO", userRegistrationDTO);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegistrationDTO", bindingResult);
 
+            return "redirect:/users/register";
         }
-        System.out.println(registrationDTO.toString());
+
+        this.authService.register(userRegistrationDTO);
+
         return "redirect:/login";
     }
 
-    @ModelAttribute("loginDTO")
-    public UserLoginDTO initLoginForm(){
-        return new UserLoginDTO();
-    }
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String login(@Valid UserLoginDTO loginDTO,
-                        BindingResult bindingResult,
-                        RedirectAttributes redirectAttributes){
-        if (bindingResult.hasErrors()){
 
-            redirectAttributes.addFlashAttribute("loginDTO", loginDTO);
-            redirectAttributes.addFlashAttribute(
-                    "org.spring.validation.BindingResult.loginDTO", bindingResult);
-            return "redirect:/login";
-        }
 
-        if (!this.authService.login(loginDTO)){
-            redirectAttributes.addFlashAttribute("loginDTO", loginDTO);
-            redirectAttributes.addFlashAttribute("badCredentials", true);
-
-            return "redirect:/login";
-
-        }
-        return "redirect:/home";
-    }
 }

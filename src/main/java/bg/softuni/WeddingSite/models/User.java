@@ -1,46 +1,57 @@
 package bg.softuni.WeddingSite.models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User extends Person {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "user_name", unique = true)
+    private String userName;
 
-    @Column(unique = true, nullable = false)
-    private String username;
-
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-
-    @Column(name = "middle_name", nullable = false)
-    private String middleName;
-
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
-
-    @Column(nullable = false)
-    private String password;
-
-    private List<Picture> photos;
-
-    private String phoneNumber;
-
-    @Column(unique = true, nullable = false)
+    @Column(name = "email", unique = true)
     private String email;
 
-    @ManyToOne
-    private List<User> friends;
+    @Column(name = "password")
+    private String password;
 
-    @ManyToMany
-    private List<Wedding> wedding;
+    @Column(name = "registered_date")
+    private LocalDate registeredDate;
 
-    public User() {}
+    public User(String username, String encode, String email) {
+        this.userName = username;
+        this.password = encode;
+        this.email= email;
+        this.registeredDate = LocalDate.now();
+    }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public LocalDate getRegisteredDate() {
+        return registeredDate;
+    }
+
+    public void setRegisteredDate(LocalDate registeredDate) {
+        this.registeredDate = registeredDate;
+    }
 
 }
