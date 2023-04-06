@@ -41,7 +41,6 @@ public class AuthController {
     public String doRegister(@Valid UserRegistrationDTO userRegistrationDTO,
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes) {
-        System.out.println(userRegistrationDTO.toString());
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("userRegistrationDTO", userRegistrationDTO);
@@ -63,9 +62,6 @@ public class AuthController {
     @GetMapping("/profile")
     public String profile(Model model, Principal principal){
         User user = authService.getUserByUsername(principal.getName());
-//        UserProfileView profileView = new UserProfileView(user.getFullName(), user.getUsername(),
-//                user.getLevel()==null?"NONE":user.getLevel().name(), user.getAge());
-//        model.addAttribute("user", profileView);
         return "profile";
     }
 

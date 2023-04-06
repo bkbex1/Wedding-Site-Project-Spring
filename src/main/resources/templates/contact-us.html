@@ -1,0 +1,41 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/contact/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/contact/main.css">
+    <th:block th:insert="~{/fragments/head}"></th:block>
+<body>
+<th:block th:insert="~{/fragments/header}"></th:block>
+
+<div class=" container-contact100">
+    <div class="wrap-contact100">
+        <form class="contact100-form validate-form top-padding">
+        <span class="contact100-form-title">Send Us A Message</span>
+            <div class="wrap-input100 validate-input" data-validate="Please enter your name">
+                <input class="input100" type="text" name="name" placeholder="Full Name">
+                <span class="focus-input100"></span>
+            </div>
+            <div class="wrap-input100 validate-input" data-validate="Please enter your email: e@a.x">
+                <input class="input100" type="text" name="email" placeholder="E-mail">
+                <span class="focus-input100"></span>
+            </div>
+            <div class="wrap-input100 validate-input" data-validate="Please enter your phone">
+                <input class="input100" type="text" name="phone" placeholder="Phone">
+                <span class="focus-input100"></span>
+            </div>
+            <div class="wrap-input100 validate-input" data-validate="Please enter your message">
+                <textarea class="input100" name="message" placeholder="Your Message"></textarea>
+                <span class="focus-input100"></span>
+            </div>
+            <div class="container-contact100-form-btn">
+                <button class="contact100-form-btn"><span>Send</span></button>
+            </div>
+        </form>
+    </div>
+    <th:block th:insert="~{/fragments/footer}"></th:block>
+    <th:block th:insert="~{/fragments/scripts}"></th:block>
+</div>
+</body>
+</html>

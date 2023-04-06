@@ -17,4 +17,18 @@ public class HomeController {
         return "contact-us";
     }
 
+    @GetMapping("/profile")
+    public String profile(){
+        return "profile";
+    }
+
+    @GetMapping("/friends")
+    public String friends(){
+        return "friends";
+    }
+
+    @GetMapping("/gallery")
+    public String gallery(){
+        return "fragments/gallery";
+    }
 }

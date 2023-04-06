@@ -25,6 +25,17 @@ public class User extends Person {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
+    public Picture getPicture() {
+        return picture;
+    }
+
+    public void setPicture(Picture picture) {
+        this.picture = picture;
+    }
+
+    @OneToOne
+    private Picture picture;
+
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
