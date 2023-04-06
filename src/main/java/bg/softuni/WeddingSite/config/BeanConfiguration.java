@@ -1,9 +1,12 @@
 package bg.softuni.WeddingSite.config;
 
+import bg.softuni.WeddingSite.services.AuthService;
+import bg.softuni.WeddingSite.services.LoggedUserDetailService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -19,7 +22,6 @@ public class BeanConfiguration {
                         .requestMatchers("/", "/home", "/js/**", "/css/**").permitAll()
                         .requestMatchers("/users/login", "/users/register").anonymous()
                         .requestMatchers("/users/profile").authenticated()
-                        .requestMatchers("/api/**").permitAll()
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().and()
                         .formLogin()
                         .loginPage("/users/login")
@@ -47,4 +49,6 @@ public class BeanConfiguration {
                 30,
                 Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA256);
     }
+
+
 }

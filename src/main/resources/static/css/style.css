@@ -2369,6 +2369,16 @@ fieldset:disabled a.btn {
   border-color: #E47A2E;
 }
 
+form{
+    margin: 0;
+    padding: 0;
+    align-items: flex-start
+    background-color: #121F38 !important;
+}
+form button{
+    background-color: #121F38 !important;
+    border: 0;
+}
 .btn-primary:hover {
   color: #fff;
   background-color: #d1671b;
@@ -9505,10 +9515,6 @@ a.text-dark:hover, a.text-dark:focus {
   100% {
     transform: translateY(-15px);
   }
-}
-
-.navbar-dark {
-  display: none;
 }
 
 .navbar-dark .navbar-nav .nav-link {

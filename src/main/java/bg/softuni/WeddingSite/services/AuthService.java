@@ -3,16 +3,20 @@ package bg.softuni.WeddingSite.services;
 import bg.softuni.WeddingSite.models.User;
 import bg.softuni.WeddingSite.models.dtos.UserRegistrationDTO;
 import bg.softuni.WeddingSite.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
+
+
 @Service
 public class AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Autowired
     public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -38,4 +42,8 @@ public class AuthService {
         return true;
     }
 
+    public User getUserByUsername(String username) {
+        return this.userRepository.findByUsername(username)
+                .orElseThrow(()-> new UsernameNotFoundException("User not found!"));
+    }
 }

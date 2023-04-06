@@ -6,13 +6,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
+
     @GetMapping("/")
-    public String loggedOutIndex(){
+    public String home(){
         return "index";
     }
 
-    @GetMapping("/home")
-    public String loggedInIndex(){
-        return "home";
+    @GetMapping("/contact-us")
+    public String contactUs(){
+        return "contact-us";
     }
+
 }
