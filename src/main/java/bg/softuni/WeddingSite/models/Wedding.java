@@ -40,6 +40,17 @@ public class Wedding {
     @OneToMany
     private List<Person> guests;
 
+    @OneToOne
+    private User creator;
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
     public Wedding() {
     }
 

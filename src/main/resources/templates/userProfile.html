@@ -1,8 +1,11 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:form="http://www.w3.org/1999/xhtml">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8">
+
+
+    <title>bs4 beta profile and timeline - Bootdey.com</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
 
@@ -27,8 +30,7 @@
                                     </div>
                                 </div>
                                 <div class="timeline-btn">
-                                    <a href="/createRestaurant" class="btn btn-primary waves-effect waves-light m-r-10">Create Restaurant</a>
-                                    <a href="/create" class="btn btn-primary waves-effect waves-light m-r-10">Create Wedding</a>
+                                    <a href="#" class="btn btn-primary waves-effect waves-light m-r-10">follows</a>
                                     <a href="#" class="btn btn-primary waves-effect waves-light">Send Message</a>
                                 </div>
                             </div>
@@ -38,17 +40,16 @@
                                 <div class="social-timeline-left">
                                     <div class="card">
                                         <div class="social-profile">
-
-                                            <img class="img-fluid width-100" th:if="${fileId !=null } " th:src="@{/image/{id}(id=${fileId})}" alt="">
-                                            <img class="img-fluid width-100" th:unless="${fileId != null } " src="https://bootdey.com/img/Content/avatar/avatar7.png ">
+                                            <img class="img-fluid width-100" th:if="${user !=null } " th:src="@{/image/{id}(id=${user.picture.getId()})}" alt="">
+                                            <img class="img-fluid width-100" th:unless="${user != null } " src="https://bootdey.com/img/Content/avatar/avatar7.png ">
                                             <div class="profile-hvr m-t-15">
                                                 <i class="icofont icofont-ui-edit p-r-10"></i>
                                                 <i class="icofont icofont-ui-delete"></i>
                                             </div>
                                         </div>
                                         <div class="card-block social-follower">
-                                            <h4 th:text="*{userProfileDTO.username}"></h4>
-                                            <h5 th:text="${userProfileDTO.email}"></h5>
+                                            <h4 th:text="*{user.username}"></h4>
+                                            <h5 th:text="${user.email}">Softwear Engineer</h5>
                                             <div class="row follower-counter">
                                                 <div class="col-4">
                                                     <button class="btn btn-primary btn-icon" data-toggle="tooltip" data-placement="top" title="" data-original-title="485">
@@ -85,11 +86,11 @@
                                             <div class="slide"></div>
                                         </li>
                                         <li class="nav-item">
-                                            <a id="weddings" class="nav-link" data-toggle="tab" href="#photos" role="tab">Weddings</a>
+                                            <a class="nav-link" data-toggle="tab" href="#photos" role="tab">Photos</a>
                                             <div class="slide"></div>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" data-toggle="tab" href="#friends" role="tab">Friends</a>
+                                            <a class="nav-link" data-toggle="tab" href="#friends" role="tab">Weddings</a>
                                             <div class="slide"></div>
                                         </li>
                                     </ul>
@@ -169,6 +170,124 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="social-timelines p-relative">
+                                                    <div class="row timeline-right p-t-35">
+                                                        <div class="col-2 col-sm-2 col-xl-1">
+                                                            <div class="social-timelines-left">
+                                                                <img class="img-radius timeline-icon" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-10 col-sm-10 col-xl-11 p-l-5 p-b-35">
+                                                            <div class="card">
+                                                                <div class="card-block post-timelines">
+                                                                    <span class="dropdown-toggle addon-btn text-muted f-right service-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" role="tooltip"></span>
+                                                                    <div class="dropdown-menu dropdown-menu-right b-none services-list">
+                                                                        <a class="dropdown-item" href="#">Remove tag</a>
+                                                                        <a class="dropdown-item" href="#">Report Photo</a>
+                                                                        <a class="dropdown-item" href="#">Hide From Timeline</a>
+                                                                        <a class="dropdown-item" href="#">Blog User</a>
+                                                                    </div>
+                                                                    <div class="chat-header f-w-600">Josephin Doe posted on your timeline</div>
+                                                                    <div class="social-time text-muted">50 minutes ago</div>
+                                                                </div>
+                                                                <img src="https://www.bootdey.com/image/800x350/FF69B4/000000" class="img-fluid width-100" alt="">
+                                                                <div class="card-block">
+                                                                    <div class="timeline-details">
+                                                                        <div class="chat-header">Josephin Doe posted on your timeline</div>
+                                                                        <p class="text-muted">lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea </p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card-block b-b-theme b-t-theme social-msg">
+                                                                    <a href="#"> <i class="icofont icofont-heart-alt text-muted"></i><span class="b-r-muted">Like (20)</span></a>
+                                                                    <a href="#"> <i class="icofont icofont-comment text-muted"></i><span class="b-r-muted">Comments (25)</span> </a>
+                                                                    <a href="#"> <i class="icofont icofont-share text-muted"></i><span>Share (10)</span> </a>
+                                                                </div>
+                                                                <div class="card-block user-box">
+                                                                    <div class="p-b-30"> <span class="f-14"><a href="#">Comments (110)</a></span><span class="f-right">see all comments</span></div>
+                                                                    <div class="media m-b-20">
+                                                                        <a class="media-left" href="#">
+                                                                            <img class="media-object img-radius m-r-20" src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="Generic placeholder image">
+                                                                        </a>
+                                                                        <div class="media-body b-b-muted social-client-description">
+                                                                            <div class="chat-header">About Marta Williams<span class="text-muted">Jane 10, 2015</span></div>
+                                                                            <p class="text-muted">lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="media">
+                                                                        <a class="media-left" href="#">
+                                                                            <img class="media-object img-radius m-r-20" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="Generic placeholder image">
+                                                                        </a>
+                                                                        <div class="media-body">
+                                                                            <form class="">
+                                                                                <div class="">
+                                                                                    <textarea rows="5" cols="5" class="form-control" placeholder="Write Something here..."></textarea>
+                                                                                    <div class="text-right m-t-20"><a href="#" class="btn btn-primary waves-effect waves-light">Post</a></div>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="f-30 text-muted text-center">2014</div>
+                                        <div class="row">
+                                            <div class="col-md-12 timeline-dot">
+                                                <div class="social-timelines p-relative">
+                                                    <div class="row timeline-right p-t-35">
+                                                        <div class="col-2 col-sm-2 col-xl-1">
+                                                            <div class="social-timelines-left">
+                                                                <img class="img-radius timeline-icon" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-10 col-sm-10 col-xl-11 p-l-5 p-b-35">
+                                                            <div class="card">
+                                                                <div class="card-block post-timelines">
+                                                                    <span class="dropdown-toggle addon-btn text-muted f-right service-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" role="tooltip"></span>
+                                                                    <div class="dropdown-menu dropdown-menu-right b-none services-list">
+                                                                        <a class="dropdown-item" href="#">Remove tag</a>
+                                                                        <a class="dropdown-item" href="#">Report Photo</a>
+                                                                        <a class="dropdown-item" href="#">Hide From Timeline</a>
+                                                                        <a class="dropdown-item" href="#">Blog User</a>
+                                                                    </div>
+                                                                    <div class="chat-header f-w-600">Josephin Doe posted on your timeline</div>
+                                                                    <div class="social-time text-muted">50 minutes ago</div>
+                                                                </div>
+                                                                <img src="https://www.bootdey.com/image/800x350/20B2AA/000000" class="img-fluid width-100" alt="">
+                                                                <div class="card-block">
+                                                                    <div class="timeline-details">
+                                                                        <div class="chat-header">Josephin Doe posted on your timeline</div>
+                                                                        <p class="text-muted">lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea </p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card-block b-b-theme b-t-theme social-msg">
+                                                                    <a href="#"> <i class="icofont icofont-heart-alt text-muted"></i><span class="b-r-muted">Like (20)</span> </a>
+                                                                    <a href="#"> <i class="icofont icofont-comment text-muted"></i> <span class="b-r-muted">Comments (25)</span></a>
+                                                                    <a href="#"> <i class="icofont icofont-share text-muted"></i> <span>Share (10)</span></a>
+                                                                </div>
+                                                                <div class="card-block user-box">
+                                                                    <div class="p-b-30"> <span class="f-14"><a href="#">Comments (110)</a></span><span class="f-right">see all comments</span></div>
+                                                                    <div class="media">
+                                                                        <a class="media-left" href="#">
+                                                                            <img class="media-object img-radius m-r-20" src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Generic placeholder image">
+                                                                        </a>
+                                                                        <div class="media-body">
+                                                                            <form class="">
+                                                                                <div class="">
+                                                                                    <textarea rows="5" cols="5" class="form-control" placeholder="Write Something here..."></textarea>
+                                                                                    <div class="text-right m-t-20"><a href="#" class="btn btn-primary waves-effect waves-light">Post</a></div>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -185,96 +304,40 @@
                                                     <div class="card-block">
                                                         <div id="view-info" class="row">
                                                             <div class="col-lg-6 col-md-12">
-                                                                <form th:method="POST" th:action="@{/profile}"
-                                                                      enctype="multipart/form-data"
-                                                                      class="login-form"
-                                                                      th:object="${userProfileDTO}">
-                                                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                                                     <table class="table table-responsive m-b-0">
                                                                         <tbody>
                                                                         <tr>
-                                                                            <th class="social-label b-none">Browse Image</th>
-                                                                            <td class="social-user-name b-none text-muted">
-                                                                                <input name="img"
-                                                                                       type="file"
-                                                                                       class="form-control rounded-left"></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <th class="social-label b-none p-t-0">Username
-                                                                            </th>
-                                                                            <td class="social-user-name b-none p-t-0 text-muted">
-                                                                                <input name="username"
-                                                                                       th:field="*{username}"
-                                                                                       type="text"
-                                                                                       minlength="5" maxlength="20"
-                                                                                       class="form-control rounded-left"
-                                                                                       placeholder="Username" required></td>
+                                                                            <th class="social-label b-none p-t-0">Username</th>
+                                                                            <td th:text="*{user.username}" class="social-user-name b-none p-t-0 text-muted"></td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th class="social-label b-none p-t-0">First name
                                                                             </th>
-                                                                            <td class="social-user-name b-none p-t-0 text-muted">
-                                                                                <input name="firstName"
-                                                                                       th:field="*{firstName}"
-                                                                                       type="text"
-                                                                                       minlength="5" maxlength="20"
-                                                                                       class="form-control rounded-left"
-                                                                                       placeholder="First Name" required></td>
+                                                                            <td th:text="*{user.firstName}" class="social-user-name b-none p-t-0 text-muted"></td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th class="social-label b-none p-t-0">Middle name
                                                                             </th>
-                                                                            <td class="social-user-name b-none p-t-0 text-muted">
-                                                                                <input name="middleName"
-                                                                                       th:field="*{middleName}"
-                                                                                       type="text"
-                                                                                       class="form-control rounded-left"
-                                                                                       placeholder="Middle name"></td>
+                                                                            <td th:text="*{user.middleName}"  class="social-user-name b-none p-t-0 text-muted"></td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th class="social-label b-none p-t-0">Last name
                                                                             </th>
-                                                                            <td class="social-user-name b-none p-t-0 text-muted">
-                                                                                <input name="lastName"
-                                                                                       th:field="*{lastName}"
-                                                                                       type="text"
-                                                                                       class="form-control rounded-left"
-                                                                                       placeholder="Last name"></td>
+                                                                            <td th:text="*{user.lastName}" class="social-user-name b-none p-t-0 text-muted"></td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th class="social-label b-none p-t-0">Email
                                                                             </th>
-                                                                            <td class="social-user-name b-none p-t-0 text-muted">
-                                                                                <input name="email"
-                                                                                       th:field="*{email}"
-                                                                                       type="text"
-                                                                                       class="form-control rounded-left"
-                                                                                       placeholder="Email"></td>
+                                                                            <td th:text="*{user.email}" class="social-user-name b-none p-t-0 text-muted"></td>
                                                                         </tr>
 
                                                                         <tr>
                                                                             <th class="social-label b-none p-t-0">Address
                                                                             </th>
-                                                                            <td class="social-user-name b-none p-t-0 text-muted">
-                                                                                <input name="address"
-                                                                                       th:field="*{address}"
-                                                                                       type="text"
-                                                                                       class="form-control rounded-left"
-                                                                                       placeholder="Address"></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <th class="social-label b-none">Birth Date</th>
-                                                                            <td class="social-user-name b-none text-muted">
-                                                                                <input name="birthDate"
-                                                                                       th:field="*{birthDate}"
-                                                                                       type="date"
-                                                                                       class="form-control rounded-left"
-                                                                                       placeholder="Birth Date"></td>
+                                                                            <td th:text="*{user.address}" class="social-user-name b-none p-t-0 text-muted"></td>
                                                                         </tr>
                                                                         </tbody>
                                                                     </table>
-                                                                    <button type="submit" id="edit-save" class="btn btn-primary waves-effect waves-light m-r-20">Save</button>
-                                                                </form>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -283,15 +346,17 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="photos">
-                                        <th:block th:insert="~{/fragments/allWeddings}"></th:block>
+
                                     </div>
                                     <div class="tab-pane" id="friends">
-                                        <th:block th:insert="~{/fragments/friendsFrag}"></th:block>
+
                                     </div>
+
                                     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
                                     <script src="https://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
                                     <script type="text/javascript">
                                     </script>
+
                                 </div>
 
                             </div>
@@ -301,10 +366,10 @@
 
             </div>
 
-            </div>
-            </div>
         </div>
-    <th:block th:insert="~{/fragments/footer}"></th:block>
-    <th:block th:insert="~{/fragments/scripts}"></th:block>
+    </div>
+</div>
+<th:block th:insert="~{/fragments/footer}"></th:block>
+<th:block th:insert="~{/fragments/scripts}"></th:block>
 </body>
 </html>

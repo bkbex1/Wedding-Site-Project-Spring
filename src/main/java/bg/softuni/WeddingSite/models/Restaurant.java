@@ -28,6 +28,25 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant")
     private List<Wedding> weddingsList;
 
+    @OneToOne
+    private User creator;
+
+    public List<Wedding> getWeddingsList() {
+        return weddingsList;
+    }
+
+    public void setWeddingsList(List<Wedding> weddingsList) {
+        this.weddingsList = weddingsList;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
     public Restaurant() {
     }
 

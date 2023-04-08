@@ -1,0 +1,27 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<div class="container-fluid py-5" id="family" >
+    <div class="container pt-5 pb-3" >
+        <div class="row portfolio-container" >
+            <div class="col-lg-4 col-md-6 mb-4 portfolio-item first" th:each="w : ${allWeddings}">
+                <div class="position-relative mb-2">
+                    <img class="img-fluid width-100" th:if="${fileId !=null } " th:src="@{/image/{id}(id=${fileId})}" alt="">
+                    <img class="img-fluid width-100" th:unless="${fileId != null } " src="https://thestarsinside.com/wp-content/uploads/2020/04/Luxury-Wedding-and-Elopement-Planner-in-the-UK-2-2048x1365.jpg ">
+                    <div class="bg-secondary text-center p-4">
+                        <h4 class="mb-3">
+                            <span th:text="*{w.groom.getFirstName()}"></span>
+                            <span th:text="*{w.groom.getLastName()}"></span>
+                            </h4>
+                        <h4 class="mb-3">
+                            <span th:text="*{w.bride.getFirstName()}"></span>
+                            <span th:text="*{w.bride.getLastName()}"></span>
+                        </h4>
+                        <p class="text-uppercase">Best Friend</p>
+                        <p th:text="*{description}"></p>
+                        <a th:href="@{/wedding/{id}(id=*{w.id})}" class="btn">See more</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

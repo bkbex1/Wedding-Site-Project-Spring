@@ -2,6 +2,8 @@ package bg.softuni.WeddingSite.models;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "comments")
 public class Comment {
@@ -11,10 +13,21 @@ public class Comment {
     private Long id;
 
     @OneToOne
-    private User commentator;
+    private User creator;
 
     @OneToOne
     private Wedding wedding;
+
+    @Column(name = "created")
+    private LocalDate created;
+
+    public LocalDate getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDate created) {
+        this.created = created;
+    }
 
     public Long getId() {
         return id;
@@ -27,12 +40,12 @@ public class Comment {
         this.id = id;
     }
 
-    public User getCommentator() {
-        return commentator;
+    public User getCreator() {
+        return creator;
     }
 
-    public void setCommentator(User commentator) {
-        this.commentator = commentator;
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 
     public Wedding getWedding() {

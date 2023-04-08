@@ -19,9 +19,10 @@ public class BeanConfiguration {
         httpSecurity.authorizeRequests(authorize -> {
             try {
                 authorize
-                        .requestMatchers("/", "/home", "/js/**", "/css/**").permitAll()
+                        .requestMatchers("/","/users", "/weddings",
+                                "/home", "/js/**", "/css/**").permitAll()
                         .requestMatchers("/users/login", "/users/register").anonymous()
-                        .requestMatchers("/users/profile").authenticated()
+                        .requestMatchers("/profile", "/wedding/**").authenticated()
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().and()
                         .formLogin()
                         .loginPage("/users/login")

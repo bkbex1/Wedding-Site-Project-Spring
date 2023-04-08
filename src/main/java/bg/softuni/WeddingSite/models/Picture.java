@@ -12,14 +12,37 @@ public class Picture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "url")
-    private String url;
+    @Column(name = "file_name")
+    private String fileName;
+
+    @Column(name = "content_type")
+    private String contentType;
+
+    @Lob
+    @Column(length = Integer.MAX_VALUE)
+    private byte[] data;
 
     @Column(name = "created_date")
     private LocalDate createdDate;
 
     @ManyToOne
     private Photographer photographer;
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
 
     public Picture() {
     }
@@ -32,12 +55,12 @@ public class Picture {
         this.id = id;
     }
 
-    public String getUrl() {
-        return url;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public LocalDate getCreatedDate() {

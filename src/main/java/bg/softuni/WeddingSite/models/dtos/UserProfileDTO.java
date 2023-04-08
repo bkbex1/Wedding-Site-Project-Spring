@@ -1,30 +1,39 @@
-package bg.softuni.WeddingSite.models;
+package bg.softuni.WeddingSite.models.dtos;
 
 import bg.softuni.WeddingSite.models.enums.Sex;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "people")
-public class Person {
+public class UserProfileDTO extends UserRegistrationDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String username;
 
-    @Column(name = "fist_name")
     private String firstName;
 
-    @Column(name = "middle_name")
     private String middleName;
 
-    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "address")
     private String address;
 
+    private Sex gender;
+
+    private LocalDate birthDate;
+
+    private MultipartFile img;
+
+    public MultipartFile getImg() {
+        return img;
+    }
+
+    public UserProfileDTO setImg(MultipartFile img) {
+        this.img = img;
+        return this;
+    }
     public String getAddress() {
         return address;
     }
@@ -33,19 +42,17 @@ public class Person {
         this.address = address;
     }
 
-    @Column(name = "gender")
-    @Enumerated(value = EnumType.STRING)
-    private Sex gender;
-
-    @Column(name = "birth_date")
-    private LocalDate birthDate;
-
-    public Long getId() {
-        return id;
+    @Override
+    public String getUsername() {
+        return username;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public UserProfileDTO() {
     }
 
     public String getFirstName() {
@@ -88,6 +95,5 @@ public class Person {
         this.birthDate = birthDate;
     }
 
-    public Person() {
-    }
+
 }

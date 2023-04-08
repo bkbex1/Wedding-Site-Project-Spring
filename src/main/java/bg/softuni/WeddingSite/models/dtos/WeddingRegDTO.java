@@ -17,6 +17,16 @@ public class WeddingRegDTO {
     @NotNull
     private LocalDate weddingDate;
 
+    private String photographer;
+
+    public String getPhotographer() {
+        return photographer;
+    }
+
+    public void setPhotographer(String photographer) {
+        this.photographer = photographer;
+    }
+
     public WeddingRegDTO() {
     }
 

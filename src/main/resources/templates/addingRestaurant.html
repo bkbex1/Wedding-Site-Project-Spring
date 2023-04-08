@@ -1,0 +1,60 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Wedding Book</title>
+    <th:block th:insert="~{/fragments/head}"></th:block>
+</head>
+<th:block th:insert="~{/fragments/header}"></th:block>
+
+<body>
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section">Create Restaurant</h2>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-5">
+                <div class="login-wrap p-4 p-md-5">
+                    <div class="icon d-flex align-items-center justify-content-center">
+                        <span class="fa fa-user-o"></span>
+                    </div>
+                    <h3 class="text-center mb-4">Create Restaurant</h3>
+                    <form th:method="post" th:action="@{/restaurant}" th:object="${restaurantDTO}" class="login-form">
+                        <div class="form-group">
+                            <input name="name"
+                                   th:field="*{name}"
+                                   type="text"
+                                   minlength="5" maxlength="20"
+                                   class="form-control rounded-left"
+                                   placeholder="Restaurant`s Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input name="capacity"
+                                   type="number"
+                                   th:field="*{capacity}"
+                                   class="form-control rounded-left"
+                                   placeholder="Capacity" required>
+                        </div>
+                        <div class="form-group">
+                            <input name="address"
+                                   type="text"
+                                   th:field="*{address}"
+                                   class="form-control rounded-left"
+                                   placeholder="Address">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="form-control btn btn-primary rounded submit px-3">Add restaurant</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<th:block th:insert="~{/fragments/footer}"></th:block>
+<th:block th:insert="~{/fragments/scripts}"></th:block>
+</body>
+</html>
