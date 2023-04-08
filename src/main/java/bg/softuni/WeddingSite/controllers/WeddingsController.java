@@ -71,7 +71,6 @@ public class WeddingsController {
                           Model model, Principal principal){
         User userByUsername = authService.getUserByUsername(principal.getName());
         List<Comment> comments = this.commentService.findAllCommentsForWedding(weddingId);
-
         UserViewDto userDto = new UserViewDto();
         userDto.setUsername(userByUsername.getUsername());
         userDto.setLastName(userByUsername.getLastName());

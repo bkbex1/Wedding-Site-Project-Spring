@@ -5,6 +5,7 @@ import bg.softuni.WeddingSite.services.LoggedUserDetailService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableMethodSecurity
 public class BeanConfiguration {
 
     @Bean
@@ -22,7 +24,7 @@ public class BeanConfiguration {
                         .requestMatchers("/","/users", "/weddings",
                                 "/home", "/js/**", "/css/**").permitAll()
                         .requestMatchers("/users/login", "/users/register").anonymous()
-                        .requestMatchers("/profile", "/wedding/**").authenticated()
+                        .requestMatchers("/profile", "/wedding/**", "/comment/**").authenticated()
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().and()
                         .formLogin()
                         .loginPage("/users/login")

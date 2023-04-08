@@ -30,15 +30,17 @@
                                 </div>
                                 <small th:text="*{comment.getCreated()}"></small>
                             </div>
-                            <p th:text="*{comment.getText()}" class="text-justify comment-text mb-0"></p>
-                            <div>
-                                <div class="d-flex flex-row user-feed">
-                                    <button type="button" class="btn btn-default btn-sm btn-info">
-                                        <span class="glyphicon glyphicon-edit"></span> Edit
-                                    </button>
-                                    <button type="button" class="btn btn-default btn-sm btn-danger">
-                                        <span class="glyphicon glyphicon-edit"></span> Delete
-                                    </button>
+                            <p th:text="${comment.getText()}" class="text-justify comment-text mb-0"></p>
+                            <div th:if="${comment.getCreator().getUsername().equals(userDto.getUsername())}">
+                                <div th:id="${comment.getId()}" class="d-flex flex-row user-feed">
+                                    <form th:method="DELETE" th:action="@{/comment/{id}(id=${comment.getId()})}">
+<!--                                        <button class="edit-btn btn btn-default btn-sm btn-info">-->
+<!--                                            <span class=" glyphicon glyphicon-edit"></span> Edit-->
+<!--                                        </button>-->
+                                        <button type="submit"  class="delete-btn btn btn-default btn-sm btn-danger">
+                                            <span class=" glyphicon glyphicon-edit"></span> Delete
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -47,5 +49,5 @@
             </div>
         </div>
     </div>
-
 </div>
+<script src="../js/comments.js"></script>
