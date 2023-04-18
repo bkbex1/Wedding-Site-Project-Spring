@@ -5,13 +5,12 @@ import bg.softuni.WeddingSite.models.dtos.UserRegistrationDTO;
 import bg.softuni.WeddingSite.services.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
@@ -65,4 +64,38 @@ public class AuthController {
         return "profile";
     }
 
+//    @ExceptionHandler({UsernameNotFoundException.class})
+//    public ResponseEntity<ErrorApiResponse> handleRouteNotFound() {
+//        return ResponseEntity.status(404).body(new ErrorApiResponse("Such route doesn't exist!", 1004));
+//    }
+//
+//
+//    class ErrorApiResponse {
+//        private String message;
+//        private Integer errorCode;
+//
+//        public ErrorApiResponse(String message, Integer errorCode) {
+//            this.message = message;
+//            this.errorCode = errorCode;
+//        }
+//
+//        public ErrorApiResponse() {
+//        }
+//
+//        public String getMessage() {
+//            return message;
+//        }
+//
+//        public void setMessage(String message) {
+//            this.message = message;
+//        }
+//
+//        public Integer getErrorCode() {
+//            return errorCode;
+//        }
+//
+//        public void setErrorCode(Integer errorCode) {
+//            this.errorCode = errorCode;
+//        }
+//    }
 }

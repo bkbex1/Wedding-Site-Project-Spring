@@ -22,10 +22,21 @@ public class Wedding {
     @Column(name = "wedding_date")
     private LocalDate weddingDate;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Picture> photos;
 
-    @OneToMany(mappedBy = "id")
+    @OneToOne
+    private Picture profilePic;
+
+    public Picture getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(Picture profilePic) {
+        this.profilePic = profilePic;
+    }
+
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<Comment> comments;
 
     @OneToOne

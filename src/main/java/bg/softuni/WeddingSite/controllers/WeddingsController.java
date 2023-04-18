@@ -7,6 +7,8 @@ import bg.softuni.WeddingSite.models.dtos.CommentDto;
 import bg.softuni.WeddingSite.models.dtos.RestaurantDTO;
 import bg.softuni.WeddingSite.models.dtos.UserViewDto;
 import bg.softuni.WeddingSite.models.dtos.WeddingRegDTO;
+import bg.softuni.WeddingSite.models.enums.UserRoles;
+import bg.softuni.WeddingSite.models.viws.CommentView;
 import bg.softuni.WeddingSite.services.AuthService;
 import bg.softuni.WeddingSite.services.CommentService;
 import bg.softuni.WeddingSite.services.RestaurantService;
@@ -45,16 +47,14 @@ public class WeddingsController {
     }
 
 
-    @ModelAttribute("restaurantDTO")
-    public RestaurantDTO restaurantInit() {
-        return new RestaurantDTO();
-    }
-
 
     @GetMapping("/weddings")
     public String homeWeddings(Model model){
         List<Wedding> allWeddings = weddingService.findAllWeddings();
+
         model.addAttribute("allWeddings", allWeddings);
+
+
         return "weddings";
     }
 
@@ -63,7 +63,7 @@ public class WeddingsController {
         Wedding weddingById = weddingService.getWeddingById(id).get();
         commentDto.setWedding(weddingById);
         this.commentService.addingComment(commentDto, principal);
-        return "redirect:/profile";
+        return "redirect:/wedding/"+id;
     }
 
     @GetMapping("/wedding/{id}")
@@ -76,18 +76,15 @@ public class WeddingsController {
         userDto.setLastName(userByUsername.getLastName());
         userDto.setEmail(userByUsername.getEmail());
         userDto.setPicture(userByUsername.getPicture());
+        userDto.setRole(userByUsername.getRoles());
 
-        Wedding weddingById = weddingService.getWeddingById(weddingId).get();
+
+        Wedding weddingById = this.weddingService.getWeddingById(weddingId).get();
         model.addAttribute("wedding", weddingById);
         model.addAttribute("userDto", userDto);
         model.addAttribute("comments", comments);
 
         return "weddingPlanner";
-    }
-
-    @GetMapping("/vendors")
-    public String vendors(){
-        return "vendors";
     }
 
     @GetMapping("/create")
@@ -112,25 +109,7 @@ public class WeddingsController {
         return "redirect:/profile";
     }
 
-    @GetMapping("/createRestaurant")
-    public String createRestaurant(){
-        return "addingRestaurant";
-    }
 
-    @PostMapping("/restaurant")
-    public String createWedding(@Valid RestaurantDTO restaurantDTO,
-                                BindingResult bindingResult,
-                                RedirectAttributes redirectAttributes, Principal principal) throws Exception {
 
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("restaurantDTO", restaurantDTO);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.restaurantDTO", bindingResult);
 
-            return "redirect:/createRestaurant";
-        }
-
-        restaurantService.addingRestaurant(restaurantDTO, principal);
-
-        return "redirect:/profile";
-    }
 }

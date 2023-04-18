@@ -28,7 +28,8 @@ public class CommentService {
     }
 
     public List<Comment> findAllCommentsForWedding(Long weddingId) {
-       return this.commentRepository.findAllByWeddingId(weddingId);
+        List<Comment> allByWeddingId = this.commentRepository.findAllByWeddingId(weddingId);
+        return allByWeddingId;
     }
 
     public void addingComment(CommentDto commentDto, Principal principal) {

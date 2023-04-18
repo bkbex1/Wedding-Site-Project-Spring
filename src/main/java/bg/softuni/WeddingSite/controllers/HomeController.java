@@ -1,11 +1,14 @@
 package bg.softuni.WeddingSite.controllers;
 
+import bg.softuni.WeddingSite.models.Comment;
 import bg.softuni.WeddingSite.models.Picture;
 import bg.softuni.WeddingSite.models.User;
-import bg.softuni.WeddingSite.models.dtos.ImageDTO;
+import bg.softuni.WeddingSite.models.Wedding;
 import bg.softuni.WeddingSite.models.dtos.UserProfileDTO;
 import bg.softuni.WeddingSite.services.AuthService;
+import bg.softuni.WeddingSite.services.CommentService;
 import bg.softuni.WeddingSite.services.FileService;
+import bg.softuni.WeddingSite.services.WeddingService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,14 +21,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Controller
 public class HomeController {
@@ -33,11 +34,14 @@ public class HomeController {
     private User loggedUser;
     private final AuthService userService;
     private final FileService fileService;
+    private final WeddingService weddingService;
+    private CommentService commentService;
 
-    public HomeController(AuthService userService, FileService fileService) {
+    public HomeController(AuthService userService, FileService fileService, WeddingService weddingService, CommentService commentService) {
         this.userService = userService;
         this.fileService = fileService;
-
+        this.weddingService = weddingService;
+        this.commentService = commentService;
     }
 
     @ModelAttribute("userProfileDTO")
@@ -47,7 +51,9 @@ public class HomeController {
 
 
     @GetMapping("/")
-    public String home(){
+    public String home(Model model){
+        List<User> allUsers = this.userService.findAllUsers();
+        model.addAttribute("allUsers", allUsers);
         return "index";
     }
 
@@ -73,8 +79,13 @@ public class HomeController {
 
     @GetMapping("/profile")
     public String profile(Model model, Principal principal){
+        List<User> allUsers = this.userService.findAllUsers();
+        model.addAttribute("allUsers", allUsers);
         loggedUser = this.userService.getUserByUsername(principal.getName());
+        List<Wedding> allWeddings = weddingService.findAllWeddings();
+        model.addAttribute("allWeddings", allWeddings);
 
+        List<Wedding> weddings = this.weddingService.findAllWeddingsWereUserIdGroomOrBride(loggedUser.getId());
         UserProfileDTO userProfileDTO = new UserProfileDTO();
         userProfileDTO.setUsername(loggedUser.getUsername());
         userProfileDTO.setFirstName(loggedUser.getFirstName());
@@ -83,33 +94,28 @@ public class HomeController {
         userProfileDTO.setAddress(loggedUser.getAddress());
         userProfileDTO.setBirthDate(loggedUser.getBirthDate());
         userProfileDTO.setEmail(loggedUser.getEmail());
+        userProfileDTO.setPicture(loggedUser.getPicture());
 
         model.addAttribute("userProfileDTO", userProfileDTO);
-        if (loggedUser.getPicture()!=null){
-            model.addAttribute("fileId", loggedUser.getPicture().getId());
-        }
+        model.addAttribute("weddings", weddings);
+
         return "profile";
     }
+
     @PostMapping("/profile")
     public String profileEdit(@Valid UserProfileDTO userProfileDTO,
                               BindingResult bindingResult,
                               RedirectAttributes redirectAttributes, Principal principal
                               ) throws IOException {
 
-//        if (bindingResult.hasErrors()) {
-//            redirectAttributes.addFlashAttribute("userProfileDTO", userProfileDTO);
-//            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userProfileDTO", bindingResult);
-//
-//            return "redirect:/profile";
-//        }
-
-
         loggedUser = this.userService.getUserByUsername(principal.getName());
         Long idOfPic = fileService.saveFile(userProfileDTO.getImg(), loggedUser);
 
-        Picture picture = this.fileService.findById(idOfPic).orElseThrow(NoSuchElementException::new);
+        if (idOfPic!=null && idOfPic>0){
+            Picture picture = this.fileService.findById(idOfPic).orElseThrow(NoSuchElementException::new);
+            loggedUser.setPicture(picture);
+        }
 
-        loggedUser.setPicture(picture);
         loggedUser.setUsername(userProfileDTO.getUsername());
         loggedUser.setFirstName(userProfileDTO.getFirstName());
         loggedUser.setMiddleName(userProfileDTO.getMiddleName());
@@ -130,6 +136,7 @@ public class HomeController {
     public String users(Model model){
         List<User> allUsers = this.userService.findAllUsers();
         model.addAttribute("allUsers", allUsers);
+
         return "users";
     }
 
@@ -137,10 +144,24 @@ public class HomeController {
     public String userProfile(@PathVariable("username") String username, Model model){
 
         User userProfile = this.userService.getUserByUsername(username);
+        List<Wedding> weddings = this.weddingService.findAllWeddingsWereUserIdGroomOrBride(userProfile.getId());
+
         model.addAttribute("user", userProfile);
+
+        model.addAttribute("weddings", weddings);
+
+        if (userProfile.getPicture()!=null){
+            model.addAttribute("fileId", userProfile.getPicture().getId());
+        }else{
+            model.addAttribute("fileId", 0);
+        }
+
         return "userProfile";
 
     }
 
-
+    @GetMapping("/gallery")
+    public String gallery(){
+        return "/fragments/gallery";
+    }
 }

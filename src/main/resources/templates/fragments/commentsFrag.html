@@ -6,14 +6,12 @@
 <div th:unless="${userDto == null}" class="container mt-5 mb-5">
     <div class="row height d-flex justify-content-center align-items-center">
         <div class="col-md-7">
-            <div class="card">
+            <div id="comments" class="card">
                 <div class="p-3">
                     <h6>Comments</h6>
                 </div>
                 <div class="mt-3 d-flex flex-row align-items-center p-3 form-color">
-
                     <img th:src="@{/image/{id}(id=${userDto.getPicture().getId()})}" width="50px" class="rounded-circle mr-2">
-
                     <form th:method="post"
                           th:action="@{/wedding/{id}(id=${wedding.getId()})}">
                         <span><input type="text" name="text" class="form-control" placeholder="Enter your comment..."></span>
@@ -37,7 +35,7 @@
 <!--                                        <button class="edit-btn btn btn-default btn-sm btn-info">-->
 <!--                                            <span class=" glyphicon glyphicon-edit"></span> Edit-->
 <!--                                        </button>-->
-                                        <button type="submit"  class="delete-btn btn btn-default btn-sm btn-danger">
+                                        <button type="submit"  class="delete-btn btn btn-default btn-sm btn-warning">
                                             <span class=" glyphicon glyphicon-edit"></span> Delete
                                         </button>
                                     </form>

@@ -1,0 +1,26 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<div class="container-fluid py-5" id="family" >
+    <div class="container pt-5 pb-3" >
+        <div class="row portfolio-container" >
+            <div class="col-lg-4 col-md-6 mb-4 portfolio-item first" th:each="restaurant : ${allRestaurants}">
+                <div class="position-relative mb-2" >
+                    <img class="img-fluid width-100" th:unless="${restaurant.getImages() !=null }" th:src="@{/image/{id}(id=${fileId})}" alt="">
+                    <img class="img-fluid width-100" th:if="${restaurant.getImages() != null } " src="https://cdn.pixabay.com/photo/2016/03/27/20/54/wedding-reception-1284245_1280.jpg">
+                    <div class="bg-secondary text-center p-4">
+                        <h4 class="mb-3">
+                            <span>Name:</span><span th:text=" *{restaurant.getName()}"></span>
+                            <span>address:</span><span th:text="*{restaurant.getAddress()}"></span>
+                            <span>capacity:</span><span th:text="*{restaurant.getCapacity()}"></span>
+
+                        </h4>
+                        <a th:href="@{/restaurant/{id}(id=*{restaurant.getId()})}" class="btn">See more</a>
+                    </div>
+                </div>
+            </div>
+            <div th:unless="${allRestaurants !=null }">
+                <h3>No registered restaurants</h3>
+            </div>
+        </div>
+    </div>
+</div>

@@ -20,8 +20,8 @@ import java.util.Optional;
 @Controller
 public class CommentsController {
 
-    private CommentService commentService;
-    private AuthService authService;
+    private final CommentService commentService;
+    private final AuthService authService;
 
     public CommentsController(CommentService commentService, AuthService authService) {
         this.commentService = commentService;

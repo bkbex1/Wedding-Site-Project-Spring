@@ -1,5 +1,7 @@
 package bg.softuni.WeddingSite.models.dtos;
 
+import bg.softuni.WeddingSite.models.Picture;
+import bg.softuni.WeddingSite.models.Role;
 import bg.softuni.WeddingSite.models.enums.Sex;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -16,10 +18,20 @@ public class UserProfileDTO extends UserRegistrationDTO {
 
     private String middleName;
 
+
     private String lastName;
 
     private String address;
 
+    public Picture getPicture() {
+        return picture;
+    }
+
+    public void setPicture(Picture picture) {
+        this.picture = picture;
+    }
+
+    private Picture picture;
     private Sex gender;
 
     private LocalDate birthDate;

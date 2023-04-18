@@ -1,6 +1,9 @@
 package bg.softuni.WeddingSite.models.dtos;
 
 import bg.softuni.WeddingSite.models.Picture;
+import bg.softuni.WeddingSite.models.Role;
+
+import java.util.Set;
 
 public class UserViewDto {
     private String username;
@@ -8,6 +11,16 @@ public class UserViewDto {
     private String firstName;
 
     private String lastName;
+    private Set<Role> role;
+
+    public Set<Role> getRole() {
+        return role;
+    }
+
+    public void setRole(Set<Role> role) {
+        this.role = role;
+    }
+
     private String email;
 
     public String getEmail() {

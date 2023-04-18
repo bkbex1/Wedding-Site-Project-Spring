@@ -22,7 +22,8 @@ public class BeanConfiguration {
             try {
                 authorize
                         .requestMatchers("/","/users", "/weddings",
-                                "/home", "/js/**", "/css/**").permitAll()
+                                "/home", "/js/**", "/css/**", "/vendors", "/restaurants",
+                                "/restaurant/**", "/gallery").permitAll()
                         .requestMatchers("/users/login", "/users/register").anonymous()
                         .requestMatchers("/profile", "/wedding/**", "/comment/**").authenticated()
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().and()

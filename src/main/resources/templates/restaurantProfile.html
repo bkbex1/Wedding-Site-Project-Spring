@@ -1,0 +1,39 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:insert="~{/fragments/head}"></th:block>
+</head>
+
+
+<th:block th:insert="~{/fragments/header}"></th:block>
+
+<div class="container-fluid py-5" id="about">
+    <div class="container py-5">
+        <div class="section-title position-relative text-center">
+            <h6 class="text-uppercase text-primary mb-3" style="letter-spacing: 3px;">About</h6>
+            <h1 class="font-secondary display-4" >
+                <span th:text=" *{restaurant.getName()}"></span></h1>
+            <i class="far fa-heart text-dark"></i>
+        </div>
+        <div class="row m-0 mb-4 mb-md-0 pb-2 pb-md-0">
+            <div class="col-md-6 p-0 text-center text-md-right">
+                <div class="h-100 d-flex flex-column justify-content-center bg-secondary p-5">
+                    <h3 class="mb-3">Restaurant</h3>
+                    <span>Name:</span><span th:text=" *{restaurant.getName()}"></span>
+                    <span>address:</span><span th:text="*{restaurant.getAddress()}"></span>
+                    <span>capacity:</span><span th:text="*{restaurant.getCapacity()}"></span>
+                </div>
+            </div>
+            <div class="col-md-6 p-0" style="min-height: 400px;">
+                <img class="position-absolute w-100 h-100" th:unless="${restaurant.getImages() !=null }"
+                     th:src="@{/image/{id}(id=${restaurant.getImages().get(0))})}" alt="" style="object-fit: cover;">
+            <img class="position-absolute w-100 h-100" th:if="${restaurant.getImages() != null } " src="https://cdn.pixabay.com/photo/2016/03/27/20/54/wedding-reception-1284245_1280.jpg">
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <th:block th:insert="~{/fragments/commentsFrag}"></th:block>
+</div>
+<th:block th:insert="~{/fragments/footer}"></th:block>
+<th:block th:insert="~{/fragments/scripts}"></th:block>

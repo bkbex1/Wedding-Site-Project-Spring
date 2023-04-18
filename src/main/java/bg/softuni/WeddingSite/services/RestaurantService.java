@@ -8,6 +8,7 @@ import bg.softuni.WeddingSite.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,5 +42,13 @@ public class RestaurantService {
 
 
         return true;
+    }
+
+    public List<Restaurant> findAllRestaurants() {
+        return this.restaurantRepository.findAll();
+    }
+
+    public Optional<Restaurant> findById(Long restaurantId) {
+        return this.restaurantRepository.findById(restaurantId);
     }
 }

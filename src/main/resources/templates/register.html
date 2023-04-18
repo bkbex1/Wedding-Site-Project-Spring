@@ -23,7 +23,7 @@
                         <span class="fa fa-user-o"></span>
                     </div>
                     <h3 class="text-center mb-4">Sign Up</h3>
-                    <form th:method="post" th:action="@{/profile}" th:object="${userRegistrationDTO}">
+                    <form th:method="post" th:action="@{/users/register}" th:object="${userRegistrationDTO}">
                         <div class="form-group">
                             <input name="username"
                                    th:field="*{username}"

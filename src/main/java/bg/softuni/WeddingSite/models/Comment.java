@@ -15,7 +15,7 @@ public class Comment {
     @OneToOne
     private User creator;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private Wedding wedding;
 
     @Column(name = "created")

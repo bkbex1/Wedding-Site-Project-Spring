@@ -1,6 +1,7 @@
 package bg.softuni.WeddingSite.services;
 
 import bg.softuni.WeddingSite.models.Picture;
+import bg.softuni.WeddingSite.models.Role;
 import bg.softuni.WeddingSite.models.User;
 import bg.softuni.WeddingSite.models.dtos.UserRegistrationDTO;
 import bg.softuni.WeddingSite.repository.UserRepository;
@@ -9,9 +10,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Service
@@ -42,7 +44,7 @@ public class AuthService {
                 passwordEncoder.encode(registrationDTO.getPassword()),
                 registrationDTO.getEmail());
 
-        userRepository.save(user);
+        this.userRepository.save(user);
         return true;
     }
 

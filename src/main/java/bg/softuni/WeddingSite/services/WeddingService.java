@@ -67,4 +67,7 @@ public class WeddingService {
         return this.weddingRepository.findById(weddingId);
     }
 
+    public List<Wedding> findAllWeddingsWereUserIdGroomOrBride(Long id) {
+        return weddingRepository.findAllWeddingsWereUserIdIsGroomOrBride(id);
+    }
 }
