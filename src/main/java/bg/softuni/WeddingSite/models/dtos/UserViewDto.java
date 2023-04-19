@@ -11,14 +11,14 @@ public class UserViewDto {
     private String firstName;
 
     private String lastName;
-    private Set<Role> role;
+    private Set<Role> roles;
 
-    public Set<Role> getRole() {
-        return role;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Set<Role> role) {
-        this.role = role;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     private String email;

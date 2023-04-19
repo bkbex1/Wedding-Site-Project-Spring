@@ -1,19 +1,17 @@
 package bg.softuni.WeddingSite.controllers;
 
 import bg.softuni.WeddingSite.models.Comment;
+import bg.softuni.WeddingSite.models.Role;
 import bg.softuni.WeddingSite.models.User;
 import bg.softuni.WeddingSite.models.Wedding;
-import bg.softuni.WeddingSite.models.dtos.CommentDto;
-import bg.softuni.WeddingSite.models.dtos.RestaurantDTO;
-import bg.softuni.WeddingSite.models.dtos.UserViewDto;
-import bg.softuni.WeddingSite.models.dtos.WeddingRegDTO;
+import bg.softuni.WeddingSite.models.dtos.*;
 import bg.softuni.WeddingSite.models.enums.UserRoles;
-import bg.softuni.WeddingSite.models.viws.CommentView;
 import bg.softuni.WeddingSite.services.AuthService;
 import bg.softuni.WeddingSite.services.CommentService;
 import bg.softuni.WeddingSite.services.RestaurantService;
 import bg.softuni.WeddingSite.services.WeddingService;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class WeddingsController {
@@ -33,12 +31,14 @@ public class WeddingsController {
     private final RestaurantService restaurantService;
     private final AuthService authService;
     private final CommentService commentService;
+    private final ModelMapper modelMapper;
 
     public WeddingsController(WeddingService weddingService, RestaurantService restaurantService, AuthService authService, CommentService commentService) {
         this.weddingService = weddingService;
         this.restaurantService = restaurantService;
         this.authService = authService;
         this.commentService = commentService;
+        this.modelMapper = new ModelMapper();
     }
 
     @ModelAttribute("weddingRegDTO")
@@ -71,18 +71,21 @@ public class WeddingsController {
                           Model model, Principal principal){
         User userByUsername = authService.getUserByUsername(principal.getName());
         List<Comment> comments = this.commentService.findAllCommentsForWedding(weddingId);
-        UserViewDto userDto = new UserViewDto();
-        userDto.setUsername(userByUsername.getUsername());
-        userDto.setLastName(userByUsername.getLastName());
-        userDto.setEmail(userByUsername.getEmail());
-        userDto.setPicture(userByUsername.getPicture());
-        userDto.setRole(userByUsername.getRoles());
+        List<CommentDto> commentDtos = comments.stream().map(e->this.modelMapper.map(e, CommentDto.class)).collect(Collectors.toList());
+        UserViewDto userDto = this.modelMapper.map(userByUsername, UserViewDto.class);
+
+        for (var comment: commentDtos){
+
+            if (comment.getCreator().getUsername().equals(userDto.getUsername()) || userDto.getRoles().size()>1){
+                comment.setCanBeModifier(true);
+            }
+        }
 
 
         Wedding weddingById = this.weddingService.getWeddingById(weddingId).get();
         model.addAttribute("wedding", weddingById);
         model.addAttribute("userDto", userDto);
-        model.addAttribute("comments", comments);
+        model.addAttribute("comments", commentDtos);
 
         return "weddingPlanner";
     }

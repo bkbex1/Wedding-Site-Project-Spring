@@ -25,6 +25,7 @@ public class RestApiController {
         for (var comment : commentService.findAllCommentsForWedding(id)){
             CommentView comment1 = new CommentView();
             UserViewDto user = new UserViewDto();
+
             user.setFirstName(comment.getCreator().getFirstName());
             user.setUsername(comment.getCreator().getUsername());
             user.setPicture(comment.getCreator().getPicture());

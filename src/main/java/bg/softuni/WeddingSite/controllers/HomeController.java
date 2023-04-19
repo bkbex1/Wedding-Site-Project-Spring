@@ -1,15 +1,16 @@
 package bg.softuni.WeddingSite.controllers;
 
-import bg.softuni.WeddingSite.models.Comment;
 import bg.softuni.WeddingSite.models.Picture;
 import bg.softuni.WeddingSite.models.User;
 import bg.softuni.WeddingSite.models.Wedding;
 import bg.softuni.WeddingSite.models.dtos.UserProfileDTO;
+import bg.softuni.WeddingSite.models.dtos.UserViewDto;
 import bg.softuni.WeddingSite.services.AuthService;
 import bg.softuni.WeddingSite.services.CommentService;
 import bg.softuni.WeddingSite.services.FileService;
 import bg.softuni.WeddingSite.services.WeddingService;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -36,12 +38,14 @@ public class HomeController {
     private final FileService fileService;
     private final WeddingService weddingService;
     private CommentService commentService;
+    private final ModelMapper modelMapper;
 
     public HomeController(AuthService userService, FileService fileService, WeddingService weddingService, CommentService commentService) {
         this.userService = userService;
         this.fileService = fileService;
         this.weddingService = weddingService;
         this.commentService = commentService;
+        this.modelMapper = new ModelMapper();
     }
 
     @ModelAttribute("userProfileDTO")
@@ -84,17 +88,9 @@ public class HomeController {
         loggedUser = this.userService.getUserByUsername(principal.getName());
         List<Wedding> allWeddings = weddingService.findAllWeddings();
         model.addAttribute("allWeddings", allWeddings);
-
         List<Wedding> weddings = this.weddingService.findAllWeddingsWereUserIdGroomOrBride(loggedUser.getId());
-        UserProfileDTO userProfileDTO = new UserProfileDTO();
-        userProfileDTO.setUsername(loggedUser.getUsername());
-        userProfileDTO.setFirstName(loggedUser.getFirstName());
-        userProfileDTO.setMiddleName(loggedUser.getMiddleName());
-        userProfileDTO.setLastName(loggedUser.getLastName());
-        userProfileDTO.setAddress(loggedUser.getAddress());
-        userProfileDTO.setBirthDate(loggedUser.getBirthDate());
-        userProfileDTO.setEmail(loggedUser.getEmail());
-        userProfileDTO.setPicture(loggedUser.getPicture());
+
+        UserProfileDTO userProfileDTO = this.modelMapper.map(loggedUser, UserProfileDTO.class);
 
         model.addAttribute("userProfileDTO", userProfileDTO);
         model.addAttribute("weddings", weddings);
@@ -135,7 +131,12 @@ public class HomeController {
     @GetMapping("/users")
     public String users(Model model){
         List<User> allUsers = this.userService.findAllUsers();
-        model.addAttribute("allUsers", allUsers);
+        List<UserViewDto> usersViewDto = new ArrayList<>();
+        for (var user: allUsers){
+            usersViewDto.add(this.modelMapper.map(user, UserViewDto.class));
+        }
+
+        model.addAttribute("allUsers", usersViewDto);
 
         return "users";
     }

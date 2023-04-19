@@ -29,7 +29,7 @@
                                 <small th:text="*{comment.getCreated()}"></small>
                             </div>
                             <p th:text="${comment.getText()}" class="text-justify comment-text mb-0"></p>
-                            <div th:if="${comment.getCreator().getUsername().equals(userDto.getUsername())}">
+                            <div th:if="${comment.getCanBeModified()}">
                                 <div th:id="${comment.getId()}" class="d-flex flex-row user-feed">
                                     <form th:method="DELETE" th:action="@{/comment/{id}(id=${comment.getId()})}">
 <!--                                        <button class="edit-btn btn btn-default btn-sm btn-info">-->
