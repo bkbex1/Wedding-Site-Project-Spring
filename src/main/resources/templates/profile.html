@@ -29,7 +29,6 @@
                                 <div class="timeline-btn">
                                     <a href="/createRestaurant" class="btn btn-primary waves-effect waves-light m-r-10">Create Restaurant</a>
                                     <a href="/create" class="btn btn-primary waves-effect waves-light m-r-10">Create Wedding</a>
-                                    <a href="#" class="btn btn-primary waves-effect waves-light">Send Message</a>
                                 </div>
                             </div>
                         </div>
@@ -49,33 +48,17 @@
                                         <div class="card-block social-follower">
                                             <h4 th:text="*{userProfileDTO.getUsername()}"></h4>
                                             <h5 th:text="${userProfileDTO.getEmail()}"></h5>
-                                            <div class="row follower-counter">
-                                                <div class="col-4">
-                                                    <button class="btn btn-primary btn-icon" data-toggle="tooltip" data-placement="top" title="" data-original-title="485">
-                                                        <i class="fa fa-user"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="col-4">
-                                                    <button class="btn btn-danger btn-icon" data-toggle="tooltip" data-placement="top" title="" data-original-title="2k">
-                                                        <i class="fa fa-thumbs-o-up"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="col-4">
-                                                    <button class="btn btn-success btn-icon" data-toggle="tooltip" data-placement="top" title="" data-original-title="90">
-                                                        <i class="fa fa-eye"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="">
-                                                <button type="button" class="btn btn-outline-primary waves-effect btn-block"><i class="icofont icofont-ui-user m-r-10"></i> Add as Friend</button>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-9 col-lg-8 col-md-8 col-xs-12 ">
+                            <div class="col-xl-9 col-lg-7 col-md-8 col-xs-12 ">
                                 <div class="card social-tabs">
                                     <ul class="nav nav-tabs md-tabs tab-timeline" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#messages" role="tab">Messages</a>
+                                            <div class="slide"></div>
+                                        </li>
                                         <li class="nav-item">
                                             <a class="nav-link active" data-toggle="tab" href="#timeline" role="tab">Timeline</a>
                                             <div class="slide"></div>
@@ -281,12 +264,15 @@
                                         <th:block th:insert="~{/fragments/allWeddings}"></th:block>
                                     </div>
                                     <div class="tab-pane" id="friends">
-                                        <th:block th:insert="~{/fragments/usersFrag}"></th:block>
+                                        <th:block th:insert="~{/fragments/friendsFrag}"></th:block>
                                     </div>
-                                    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+                                    <div class="tab-pane" id="messages">
+                                        <th:block th:insert="~{/fragments/messages}"></th:block>
+                                    </div>
+                                    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+                                    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
                                     <script src="https://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-                                    <script type="text/javascript">
-                                    </script>
+                                    <script type="text/javascript"></script>
                                 </div>
 
                             </div>

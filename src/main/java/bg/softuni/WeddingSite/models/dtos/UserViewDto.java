@@ -11,6 +11,7 @@ public class UserViewDto {
     private String firstName;
 
     private String lastName;
+
     private Set<Role> roles;
 
     public Set<Role> getRoles() {

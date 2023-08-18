@@ -2,6 +2,7 @@ package bg.softuni.WeddingSite.config;
 
 import bg.softuni.WeddingSite.services.AuthService;
 import bg.softuni.WeddingSite.services.LoggedUserDetailService;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,5 +55,8 @@ public class BeanConfiguration {
                 Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA256);
     }
 
-
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 }

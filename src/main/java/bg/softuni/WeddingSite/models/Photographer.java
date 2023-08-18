@@ -26,10 +26,10 @@ public class Photographer {
     @Column(name = "address")
     private String address;
 
-    @OneToMany(mappedBy = "photographer")
+    @OneToMany(mappedBy = "photographer", fetch = FetchType.LAZY)
     private List<Wedding> weddings;
 
-    @OneToMany(mappedBy = "photographer")
+    @OneToMany(mappedBy = "photographer", fetch = FetchType.LAZY)
     private List<Picture> photos;
 
     @OneToOne

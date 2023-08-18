@@ -1,97 +1,29 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <div class="container-fluid py-5" id="family">
     <div class="container pt-5 pb-3">
 
-        <div class="row portfolio-container">
-            <div class="col-lg-4 col-md-6 mb-4 portfolio-item first">
-                <div class="position-relative mb-2">
-                    <img class="img-fluid w-100" src="img/groomsmen-1.jpg" alt="">
-                    <div class="bg-secondary text-center p-4">
-                        <h4 class="mb-3">Full Name</h4>
-                        <p class="text-uppercase">Best Friend</p>
-                        <div class="d-inline-block">
-                            <a class="mx-2" href="#"><i class="fab fa-twitter"></i></a>
-                            <a class="mx-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a class="mx-2" href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a class="mx-2" href="#"><i class="fab fa-instagram"></i></a>
+        <div class="row portfolio-container" >
+            <div th:each="friend : ${allFriends}"  class="col-lg-4 col-md-6 mb-4 portfolio-item first">
+                <a th:href="@{/user/{username}(username=${friend.getUserName()})}">
+                    <div class="position-relative mb-2">
+                        <img th:if="${friend.getPicture() != null}" class="img-fluid w-100" th:src="@{/image/{id}(id=${friend.getPicture().getId()})}" alt="">
+                        <img th:unless="${friend.getPicture() != null}" class="img-fluid w-100" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
+
+                        <div class="bg-secondary text-center p-4">
+                            <h4 class="mb-3">
+                                <span th:text="${friend.getFirstName()}"></span>
+                                <span th:text="${friend.getLastName()}"></span>
+                            </h4>
+                            <p th:text="${friend.getEmail()}" class="text-uppercase"></p>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4 portfolio-item second">
-                <div class="position-relative mb-2">
-                    <img class="img-fluid w-100" src="img/bridesmaid-1.jpg" alt="">
-                    <div class="bg-secondary text-center p-4">
-                        <h4 class="mb-3">Full Name</h4>
-                        <p class="text-uppercase">Best Friend</p>
-                        <div class="d-inline-block">
-                            <a class="mx-2" href="#"><i class="fab fa-twitter"></i></a>
-                            <a class="mx-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a class="mx-2" href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a class="mx-2" href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4 portfolio-item first">
-                <div class="position-relative mb-2">
-                    <img class="img-fluid w-100" src="img/groomsmen-2.jpg" alt="">
-                    <div class="bg-secondary text-center p-4">
-                        <h4 class="mb-3">Full Name</h4>
-                        <p class="text-uppercase">Best Friend</p>
-                        <div class="d-inline-block">
-                            <a class="mx-2" href="#"><i class="fab fa-twitter"></i></a>
-                            <a class="mx-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a class="mx-2" href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a class="mx-2" href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4 portfolio-item second">
-                <div class="position-relative mb-2">
-                    <img class="img-fluid w-100" src="img/bridesmaid-2.jpg" alt="">
-                    <div class="bg-secondary text-center p-4">
-                        <h4 class="mb-3">Full Name</h4>
-                        <p class="text-uppercase">Best Friend</p>
-                        <div class="d-inline-block">
-                            <a class="mx-2" href="#"><i class="fab fa-twitter"></i></a>
-                            <a class="mx-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a class="mx-2" href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a class="mx-2" href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4 portfolio-item first">
-                <div class="position-relative mb-2">
-                    <img class="img-fluid w-100" src="img/groomsmen-3.jpg" alt="">
-                    <div class="bg-secondary text-center p-4">
-                        <h4 class="mb-3">Full Name</h4>
-                        <p class="text-uppercase">Best Friend</p>
-                        <div class="d-inline-block">
-                            <a class="mx-2" href="#"><i class="fab fa-twitter"></i></a>
-                            <a class="mx-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a class="mx-2" href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a class="mx-2" href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4 portfolio-item second">
-                <div class="position-relative mb-2">
-                    <img class="img-fluid w-100" src="img/bridesmaid-3.jpg" alt="">
-                    <div class="bg-secondary text-center p-4">
-                        <h4 class="mb-3">Full Name</h4>
-                        <p class="text-uppercase">Best Friend</p>
-                        <div class="d-inline-block">
-                            <a class="mx-2" href="#"><i class="fab fa-twitter"></i></a>
-                            <a class="mx-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a class="mx-2" href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a class="mx-2" href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
+                </a>
             </div>
         </div>
     </div>
 </div>
+
+</html>

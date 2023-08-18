@@ -1,0 +1,104 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:form="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" type="text/css" href="../css/style-massages.css">
+<script src="../js/messages.js"></script>
+
+<div>
+    <section style="background-color: #eee;">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
+                    <h5 class="font-weight-bold mb-3 text-center text-lg-start">Conversations</h5>
+                    <div class="card">
+                        <div class="card-body">
+                            <ul class="list-unstyled mb-1">
+                                <div th:if="${allConversations.size()==0}">No messages</div>
+                                <li th:each="conversation : ${allConversations}" class="p-2 border-bottom conversation" th:id="${conversation.getId()}" style="background-color: #eee;">
+                                    <a th:href="@{/profile/conversation/{id}(id=${conversation.getId()})}" class="d-flex justify" th:each="participant : ${conversation.getParticipants()}">
+                                        <div class="d-flex flex-row">
+                                            <img th:if="${participant.getUsername() != userProfileDTO.getUsername()}" th:src="@{/image/{id}(id=${participant.getPicture().getId()})}" alt="avatar"
+                                                 class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
+                                            <div class="p-2" th:if="${participant.getUsername() != userProfileDTO.getUsername()}">
+                                                <p class="fw-bold mb-0" th:text="*{participant.getFirstName()+' '+participant.getLastName()}"></p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+                </div>
+<!--                /////////////////////////////////////////-->
+                <div class="col-md-6 col-lg-7 col-xl-8" >
+                    <div id="viewMessages">
+                    <ul class="list-unstyled">
+                        <li class="d-flex justify-content-between mb-4">
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp" alt="avatar"
+                                 class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between p-3">
+                                    <p class="fw-bold mb-0">Brad Pitt</p>
+                                    <p class="text-muted small mb-0"><i class="far fa-clock"></i> 12 mins ago</p>
+                                </div>
+                                <div class="card-body">
+                                    <p class="mb-0">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                                        labore et dolore magna aliqua.
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="d-flex justify-content-between mb-4">
+                            <div class="card w-100">
+                                <div class="card-header d-flex justify-content-between p-3">
+                                    <p class="fw-bold mb-0">Lara Croft</p>
+                                    <p class="text-muted small mb-0"><i class="far fa-clock"></i> 13 mins ago</p>
+                                </div>
+                                <div class="card-body">
+                                    <p class="mb-0">
+                                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+                                        laudantium.
+                                    </p>
+                                </div>
+                            </div>
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-5.webp" alt="avatar"
+                                 class="rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60">
+                        </li>
+                        <li class="d-flex justify-content-between mb-4">
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp" alt="avatar"
+                                 class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between p-3">
+                                    <p class="fw-bold mb-0">Brad Pitt</p>
+                                    <p class="text-muted small mb-0"><i class="far fa-clock"></i> 10 mins ago</p>
+                                </div>
+                                <div class="card-body">
+                                    <p class="mb-0">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                                        labore et dolore magna aliqua.
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    </div>
+
+                    <form th:if="${username}!=null" th:method="POST" th:action="@{/user/{username}(username=${user.username})}" th:object="${userMessageDTO}"
+                          enctype="multipart/form-data" >
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <div class="form-outline">
+                            <label class="form-label" for="textAreaExample2">Message</label>
+                            <textarea class="form-control" th:field="*{text}"  id="textAreaExample2" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-info btn-rounded float-end">Send</button>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+</div>

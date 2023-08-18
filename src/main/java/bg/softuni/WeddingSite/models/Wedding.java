@@ -48,7 +48,7 @@ public class Wedding {
     @ManyToOne
     private Photographer photographer;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Person> guests;
 
     @OneToOne

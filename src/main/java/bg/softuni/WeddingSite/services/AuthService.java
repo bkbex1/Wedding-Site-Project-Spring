@@ -1,7 +1,6 @@
 package bg.softuni.WeddingSite.services;
 
 import bg.softuni.WeddingSite.models.Picture;
-import bg.softuni.WeddingSite.models.Role;
 import bg.softuni.WeddingSite.models.User;
 import bg.softuni.WeddingSite.models.dtos.UserRegistrationDTO;
 import bg.softuni.WeddingSite.repository.UserRepository;
@@ -9,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -48,11 +48,11 @@ public class AuthService {
         return true;
     }
 
+    @Transactional
     public User getUserByUsername(String username) {
         return this.userRepository.findByUsername(username)
                 .orElseThrow(()-> new UsernameNotFoundException("User not found!"));
     }
-
 
     public User saveUser(User user) {
         return this.userRepository.save(user);
@@ -66,4 +66,13 @@ public class AuthService {
         return this.userRepository.findAll();
     }
 
+    @Transactional
+    public List<User> findByFriendsNotContaining(User user) {
+        return this.userRepository.findByFriendsNotContaining(user);
+    }
+
+
+    public User getUserByFirstName(String firstName) {
+        return this.userRepository.findUserByFirstName(firstName).get();
+    }
 }

@@ -1,14 +1,6 @@
 (function ($) {
     "use strict";
 
-    // Navbar on scrolling
-//    $(window).scroll(function () {
-//        if ($(this).scrollTop() > -1) {
-//            $('.navbar').fadeIn('slow').css('display', 'flex');
-//        }
-//    });
-
-
     // Smooth scrolling on the navbar links
     $(".navbar-nav a").on('click', function (event) {
         if (this.hash !== "") {

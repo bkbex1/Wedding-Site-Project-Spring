@@ -1,10 +1,10 @@
 package bg.softuni.WeddingSite.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -22,11 +22,32 @@ public class User extends Person {
     @Column(name = "registered_date")
     private LocalDate registeredDate;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
     @OneToOne
     private Picture picture;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<User> friends;
+
+    public void removeFriend(User friend) {
+        friend.getFriends().remove(this);
+        this.friends.remove(friend);
+    }
+
+    public void setFriends(Set<User> friends) {
+        this.friends = friends;
+    }
+
+    public Set<User> getFriends() {
+        return friends;
+    }
+
+    public void addFriend(User friend) {
+        friend.getFriends().add(this);
+        this.friends.add(friend);
+    }
 
     public Picture getPicture() {
         return picture;
@@ -44,6 +65,7 @@ public class User extends Person {
         this.username = username;
         this.password = encode;
         this.email= email;
+        this.friends = new LinkedHashSet<>();
         this.registeredDate = LocalDate.now();
     }
 

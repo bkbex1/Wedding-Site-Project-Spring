@@ -5,7 +5,7 @@
     <meta charset="utf-8">
 
 
-    <title>bs4 beta profile and timeline - Bootdey.com</title>
+    <title>User</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
 
@@ -24,14 +24,6 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="social-wallpaper">
-                                    <div class="profile-hvr">
-                                        <i class="icofont icofont-ui-edit p-r-10"></i>
-                                        <i class="icofont icofont-ui-delete"></i>
-                                    </div>
-                                </div>
-                                <div class="timeline-btn">
-                                    <a href="#" class="btn btn-primary waves-effect waves-light m-r-10">follows</a>
-                                    <a href="#" class="btn btn-primary waves-effect waves-light">Send Message</a>
                                 </div>
                             </div>
                         </div>
@@ -50,25 +42,9 @@
                                         <div class="card-block social-follower">
                                             <h4 th:text="*{user.getUserName()}"></h4>
                                             <h5 th:text="${user.getEmail()}"></h5>
-                                            <div class="row follower-counter">
-                                                <div class="col-4">
-                                                    <button class="btn btn-primary btn-icon" data-toggle="tooltip" data-placement="top" title="" data-original-title="485">
-                                                        <i class="fa fa-user"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="col-4">
-                                                    <button class="btn btn-danger btn-icon" data-toggle="tooltip" data-placement="top" title="" data-original-title="2k">
-                                                        <i class="fa fa-thumbs-o-up"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="col-4">
-                                                    <button class="btn btn-success btn-icon" data-toggle="tooltip" data-placement="top" title="" data-original-title="90">
-                                                        <i class="fa fa-eye"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="">
-                                                <button type="button" class="btn btn-outline-primary waves-effect btn-block"><i class="icofont icofont-ui-user m-r-10"></i> Add as Friend</button>
+                                            <div class="" >
+                                                <a th:unless="${isFriend}" th:href="@{/user/add/{username}(username=${user.username})}" type="submit" class="btn btn-outline-primary waves-effect btn-block"><i class="icofont icofont-ui-user m-r-10"></i> Add as Friend</a>
+                                                <a th:if="${isFriend}" th:href="@{/user/remove/{username}(username=${user.username})}" type="submit" class="btn btn-outline-primary waves-effect btn-block"><i class="icofont icofont-ui-user m-r-10"></i> Remove as Friend</a>
                                             </div>
                                         </div>
                                     </div>
@@ -77,6 +53,10 @@
                             <div class="col-xl-9 col-lg-8 col-md-8 col-xs-12 ">
                                 <div class="card social-tabs">
                                     <ul class="nav nav-tabs md-tabs tab-timeline" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#messages" role="tab">Messages</a>
+                                            <div class="slide"></div>
+                                        </li>
                                         <li class="nav-item">
                                             <a class="nav-link active" data-toggle="tab" href="#timeline" role="tab">Timeline</a>
                                             <div class="slide"></div>
@@ -90,7 +70,7 @@
                                             <div class="slide"></div>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" data-toggle="tab" href="#friends" role="tab">Weddings</a>
+                                            <a class="nav-link" data-toggle="tab" href="#weddings" role="tab">Weddings</a>
                                             <div class="slide"></div>
                                         </li>
                                     </ul>
@@ -101,10 +81,9 @@
                                         <div class="row">
                                             <div class="col-md-12 timeline-dot">
                                                 <div class="social-timelines p-relative">
-                                                    <div class="row timeline-right p-t-35" th:each="w : ${weddings}">
+                                                    <div class="row timeline-right p-t-35" th:each="w : ${allWeddings}">
                                                         <div class="col-2 col-sm-2 col-xl-1">
                                                             <div class="social-timelines-left">
-<!--                                                                <img class="img-radius timeline-icon" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">-->
                                                                 <img class="img-radius timeline-icon" th:if="${user !=null } " th:src="@{/image/{id}(id=${user.picture.getId()})}" alt="">
                                                                 <img class="img-radius timeline-icon" th:unless="${user != null } " src="https://bootdey.com/img/Content/avatar/avatar7.png ">
                                                             </div>
@@ -118,14 +97,14 @@
                                                                         <span th:text="*{user.getLastName()}"></span> posted on timeline</div>
                                                                     <div class="social-time text-muted" th:text="*{w.getWeddingDate()}"></div>
                                                                 </div>
-                                                                <img th:if="${weddingPic != null }" th:src="@{/image/{id}(id=${weddingPic})}" class="img-fluid width-100" alt="">
-                                                                <img th:unless="${weddingPic != null}" class="img-fluid width-100" src="https://thestarsinside.com/wp-content/uploads/2020/04/Luxury-Wedding-and-Elopement-Planner-in-the-UK-2-2048x1365.jpg ">
+                                                                <img th:if="${weddingPic != null }" th:src="@{/image/{id}(id=${weddingPic})}" class="img-fluid width-50" alt="">
+                                                                <img th:unless="${weddingPic != null}" class="img-fluid width-50" src="https://thestarsinside.com/wp-content/uploads/2020/04/Luxury-Wedding-and-Elopement-Planner-in-the-UK-2-2048x1365.jpg ">
 
                                                                 <div class="card-block">
                                                                     <div class="timeline-details">
                                                                         <div class="chat-header"><span th:text="*{user.getFirstName()}"></span>
                                                                             <span th:text="*{user.getLastName()}"></span> posted on timeline</div>
-<!--                                                                        <p class="text-muted">lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea </p>-->
+
                                                                     </div>
                                                                 </div>
 
@@ -192,19 +171,20 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="photos">
+                                        <th:block th:insert="~{/fragments/photos}"></th:block>
+                                    </div>
+                                    <div class="tab-pane" id="weddings">
                                         <th:block th:insert="~{/fragments/allWeddings}"></th:block>
                                     </div>
-                                    <div class="tab-pane" id="friends">
-                                        <th:block th:insert="~{/fragments/usersFrag}"></th:block>
+                                    <div class="tab-pane" id="messages">
+                                        <th:block th:insert="~{/fragments/messages}"></th:block>
                                     </div>
-
-                                    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+                                    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+                                    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
                                     <script src="https://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
                                     <script type="text/javascript">
                                     </script>
-
                                 </div>
-
                             </div>
                         </div>
                     </div>

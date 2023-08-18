@@ -426,7 +426,7 @@ ul#profile-lightgallery {
 
 .nav-tabs .slide {
     background: #4099ff;
-    width: calc(100%/ 4);
+    width: calc(100%/ 5);
     height: 4px;
     position: absolute;
     -webkit-transition: left 0.3s ease-out;

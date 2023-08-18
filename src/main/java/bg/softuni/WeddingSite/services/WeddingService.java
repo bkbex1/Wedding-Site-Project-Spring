@@ -9,6 +9,7 @@ import bg.softuni.WeddingSite.repository.UserRepository;
 import bg.softuni.WeddingSite.repository.WeddingRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.util.List;
@@ -32,7 +33,7 @@ public class WeddingService {
         Optional<User> photographUsername = this.userRepository.findByUsername(weddingRegDTO.getPhotographer());
         User principalUser = this.userRepository
                 .findByUsername(principal.getName())
-                .orElseThrow(()->new UsernameNotFoundException("User not found! principal"));
+                .orElseThrow(()->new UsernameNotFoundException("User not found! Principal"));
 
         Wedding wedding = new Wedding();
         Photographer photographer = new Photographer();
@@ -63,11 +64,13 @@ public class WeddingService {
         return this.weddingRepository.findAll();
     }
 
-    public Optional<Wedding> getWeddingById(Long weddingId) {
-        return this.weddingRepository.findById(weddingId);
+    public Optional<Wedding> getWeddingById(Long id) {
+        return this.weddingRepository.findById(id);
     }
 
+
+    @Transactional
     public List<Wedding> findAllWeddingsWereUserIdGroomOrBride(Long id) {
-        return weddingRepository.findAllWeddingsWereUserIdIsGroomOrBride(id);
+        return weddingRepository.findWeddingsByGroomOrBrideId(id);
     }
 }

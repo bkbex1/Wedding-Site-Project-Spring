@@ -2,6 +2,7 @@ package bg.softuni.WeddingSite.models.dtos;
 
 import bg.softuni.WeddingSite.models.Picture;
 import bg.softuni.WeddingSite.models.Role;
+import bg.softuni.WeddingSite.models.User;
 import bg.softuni.WeddingSite.models.enums.Sex;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class UserProfileDTO extends UserRegistrationDTO {
 
@@ -17,7 +19,6 @@ public class UserProfileDTO extends UserRegistrationDTO {
     private String firstName;
 
     private String middleName;
-
 
     private String lastName;
 
@@ -32,6 +33,7 @@ public class UserProfileDTO extends UserRegistrationDTO {
     }
 
     private Picture picture;
+
     private Sex gender;
 
     private LocalDate birthDate;

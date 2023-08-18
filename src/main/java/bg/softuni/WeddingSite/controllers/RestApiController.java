@@ -1,52 +1,85 @@
 package bg.softuni.WeddingSite.controllers;
 
-import bg.softuni.WeddingSite.models.Comment;
-import bg.softuni.WeddingSite.models.dtos.UserViewDto;
-import bg.softuni.WeddingSite.models.viws.CommentView;
+import bg.softuni.WeddingSite.models.Conversation;
+import bg.softuni.WeddingSite.models.User;
+import bg.softuni.WeddingSite.models.UserMessage;
+import bg.softuni.WeddingSite.models.Wedding;
+import bg.softuni.WeddingSite.models.dtos.UserMessageDTO;
+import bg.softuni.WeddingSite.models.dtos.UserProfileDTO;
+import bg.softuni.WeddingSite.services.AuthService;
 import bg.softuni.WeddingSite.services.CommentService;
+import bg.softuni.WeddingSite.services.MessageService;
+import bg.softuni.WeddingSite.services.WeddingService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class RestApiController {
 
-    private final CommentService commentService;
+    private final MessageService messageService;
+    private final ModelMapper modelMapper;
+    private final AuthService userService;
+    private final WeddingService weddingService;
 
-    public RestApiController(CommentService commentService) {
-        this.commentService = commentService;
+    public RestApiController(CommentService commentService, MessageService messageService, ModelMapper modelMapper, AuthService userService, WeddingService weddingService) {
+        this.messageService = messageService;
+        this.modelMapper = modelMapper;
+        this.userService = userService;
+        this.weddingService = weddingService;
     }
 
-    @GetMapping("{id}/comments")
-    public ResponseEntity<List<CommentView>> getAllComments(@PathVariable("id") Long id ) {
-        List<CommentView> commentsView = new ArrayList<>();
-        for (var comment : commentService.findAllCommentsForWedding(id)){
-            CommentView comment1 = new CommentView();
-            UserViewDto user = new UserViewDto();
+    @GetMapping("/profile/conversation/{id}")
+    @Transactional
+    public ResponseEntity<List<UserMessageDTO>> getAllMessages(@PathVariable("id") Long id) {
+        List<UserMessage> messages = this.messageService.getMessagesForCommunication(id);
+        List<UserMessageDTO> messageDTOS = new ArrayList<>();
 
-            user.setFirstName(comment.getCreator().getFirstName());
-            user.setUsername(comment.getCreator().getUsername());
-            user.setPicture(comment.getCreator().getPicture());
-            user.setLastName(comment.getCreator().getLastName());
-            user.setEmail(comment.getCreator().getEmail());
+        messages.forEach(message->{
+            User sender = message.getSender();
+            UserProfileDTO upDTO = new UserProfileDTO();
+            upDTO.setUsername(sender.getUsername());
+            upDTO.setLastName(sender.getLastName());
+            upDTO.setFirstName(sender.getFirstName());
+            upDTO.setEmail(sender.getEmail());
+            upDTO.setPicture(sender.getPicture());
 
-            comment1.setCreator(user);
-            comment1.setText(comment.getText());
-            comment1.setId(comment.getId());
-            comment1.setCreated(comment.getCreated());
-            commentsView.add(comment1);
-        }
-        return ResponseEntity.ok(commentsView);
+            UserMessageDTO umDTO = new UserMessageDTO();
+            umDTO.setSender(upDTO);
+            umDTO.setDateSend(message.getDateSend());
+            umDTO.setText(message.getText());
+            messageDTOS.add(umDTO);
+        });
+        messageDTOS.forEach(message->message.setSender(this.modelMapper.map(message.getSender(), UserProfileDTO.class)));
+
+        return ResponseEntity.ok(messageDTOS);
     }
 
-    @PostMapping("/comment/{id}")
-    public String postComment(@PathVariable("id")Long id) {
-        return "redirect:/wedding/{id}";
+
+    @GetMapping("/profile/conversation")
+    public ResponseEntity<List<Conversation>> getAllConversations(Principal principal) {
+        User user = this.userService.getUserByUsername(principal.getName());
+        List<Conversation> conversations = this.messageService.getConversationsForUser(user);
+
+        return ResponseEntity.ok(conversations);
     }
-    @PatchMapping("/comment/{id}")
-    public String editComment(@PathVariable("id")Long id) {
-        return "redirect:/wedding/{id}";
+
+    @GetMapping("/profile/friends")
+    public ResponseEntity<List<User>> profileFriends(Principal principal) {
+        User user = this.userService.getUserByUsername(principal.getName());
+        List<User> allFriends = user.getFriends().stream().toList();
+        return ResponseEntity.ok(allFriends);
+    }
+
+    @GetMapping("/profile/weddings")
+    public ResponseEntity<List<Wedding>> profileWedding(Principal principal) {
+        User user = this.userService.getUserByUsername(principal.getName());
+        List<Wedding> myWeddings = this.weddingService.findAllWeddingsWereUserIdGroomOrBride(user.getId());
+        return ResponseEntity.ok(myWeddings);
     }
 }

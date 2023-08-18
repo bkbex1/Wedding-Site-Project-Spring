@@ -13,6 +13,7 @@ import bg.softuni.WeddingSite.services.WeddingService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -49,6 +51,7 @@ public class WeddingsController {
 
 
     @GetMapping("/weddings")
+    @Transactional
     public String homeWeddings(Model model){
         List<Wedding> allWeddings = weddingService.findAllWeddings();
 
@@ -69,13 +72,11 @@ public class WeddingsController {
     @GetMapping("/wedding/{id}")
     public String wedding(@PathVariable("id") Long weddingId,
                           Model model, Principal principal){
-        User userByUsername = authService.getUserByUsername(principal.getName());
+        UserViewDto userDto = this.modelMapper.map(authService.getUserByUsername(principal.getName()), UserViewDto.class);
         List<Comment> comments = this.commentService.findAllCommentsForWedding(weddingId);
         List<CommentDto> commentDtos = comments.stream().map(e->this.modelMapper.map(e, CommentDto.class)).collect(Collectors.toList());
-        UserViewDto userDto = this.modelMapper.map(userByUsername, UserViewDto.class);
 
         for (var comment: commentDtos){
-
             if (comment.getCreator().getUsername().equals(userDto.getUsername()) || userDto.getRoles().size()>1){
                 comment.setCanBeModifier(true);
             }
@@ -83,6 +84,7 @@ public class WeddingsController {
 
 
         Wedding weddingById = this.weddingService.getWeddingById(weddingId).get();
+
         model.addAttribute("wedding", weddingById);
         model.addAttribute("userDto", userDto);
         model.addAttribute("comments", commentDtos);
