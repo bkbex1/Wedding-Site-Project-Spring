@@ -27,14 +27,10 @@ public class WeddingService {
         this.photographerRepository = photographerRepository;
     }
 
-    public Boolean addingWedding(WeddingRegDTO weddingRegDTO, Principal principal){
+    public Boolean addingWedding(WeddingRegDTO weddingRegDTO, User user){
         User groom = this.userRepository.findByUsername(weddingRegDTO.getGroomName()).orElseThrow(()->new UsernameNotFoundException("User not found! Groom"));
         User bride = this.userRepository.findByUsername(weddingRegDTO.getBrideName()).orElseThrow(()->new UsernameNotFoundException("User not found! Bride"));
         Optional<User> photographUsername = this.userRepository.findByUsername(weddingRegDTO.getPhotographer());
-        User principalUser = this.userRepository
-                .findByUsername(principal.getName())
-                .orElseThrow(()->new UsernameNotFoundException("User not found! Principal"));
-
         Wedding wedding = new Wedding();
         Photographer photographer = new Photographer();
 
@@ -53,13 +49,11 @@ public class WeddingService {
 
         wedding.setBride(bride);
         wedding.setGroom(groom);
-        wedding.setCreator(principalUser);
+        wedding.setCreator(user);
         wedding.setWeddingDate(weddingRegDTO.getWeddingDate());
         weddingRepository.save(wedding);
-
         return true;
     }
-
     public List<Wedding> findAllWeddings() {
         return this.weddingRepository.findAll();
     }
@@ -68,8 +62,6 @@ public class WeddingService {
         return this.weddingRepository.findById(id);
     }
 
-
-    @Transactional
     public List<Wedding> findAllWeddingsWereUserIdGroomOrBride(Long id) {
         return weddingRepository.findWeddingsByGroomOrBrideId(id);
     }

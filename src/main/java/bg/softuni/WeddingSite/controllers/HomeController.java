@@ -188,7 +188,6 @@ public class HomeController {
                 break;
             }
         }
-//        Set<User> friends = userByUsername.getFriends();
 
         List<UserViewDto> usersViewDto = new ArrayList<>();
         allUsers.forEach(user->usersViewDto.add(this.modelMapper.map(user, UserViewDto.class)));
@@ -216,9 +215,7 @@ public class HomeController {
                         Principal principal){
         User user = this.userService.getUserByUsername(principal.getName());
         User friendToRemove = user.getFriends().stream().filter(friend->friend.getUsername().equals(username)).findFirst().get();
-
         user.removeFriend(friendToRemove);
-
         this.userService.saveUser(user);
 
         return "redirect:/users";
@@ -240,7 +237,7 @@ public class HomeController {
         }
 
 
-        Boolean isFriend = false;
+        boolean isFriend = false;
         UserMessageDTO userMessageDTO = new UserMessageDTO();
         Set<User> friends = loggedUser.getFriends();
         for (var friend:friends){
@@ -298,20 +295,21 @@ public class HomeController {
         return "redirect:/user/"+username;
 
     }
+
     @GetMapping("/gallery")
     public String gallery(){
         return "/fragments/gallery";
     }
 
-    @GetMapping("/admin")
-    public String admin(Model model, Principal principal){
-
-        User user = this.userService.getUserByUsername(principal.getName());
-        UserProfileDTO userProfileDTO = this.modelMapper.map(user, UserProfileDTO.class);
-
-        model.addAttribute("userProfileDTO", userProfileDTO);
-
-        return "/admin";
-    }
+//    @GetMapping("/admin")
+//    public String admin(Model model, Principal principal){
+//
+//        User user = this.userService.getUserByUsername(principal.getName());
+//        UserProfileDTO userProfileDTO = this.modelMapper.map(user, UserProfileDTO.class);
+//
+//        model.addAttribute("userProfileDTO", userProfileDTO);
+//
+//        return "/admin";
+//    }
 
 }

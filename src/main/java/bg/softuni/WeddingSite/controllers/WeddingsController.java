@@ -65,7 +65,9 @@ public class WeddingsController {
     public String commentWedding(@PathVariable("id") Long id, @Valid CommentDto commentDto, Principal principal ){
         Wedding weddingById = weddingService.getWeddingById(id).get();
         commentDto.setWedding(weddingById);
-        this.commentService.addingComment(commentDto, principal);
+        User creator = this.authService.getUserByUsername(principal.getName());
+
+        this.commentService.addingComment(commentDto, creator);
         return "redirect:/wedding/"+id;
     }
 
@@ -101,7 +103,7 @@ public class WeddingsController {
     public String createWedding(@Valid WeddingRegDTO weddingRegDTO,
                                 BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes, Principal principal ){
-
+        User user = this.authService.getUserByUsername(principal.getName());
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("weddingRegDTO", weddingRegDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.weddingRegDTO", bindingResult);
@@ -110,7 +112,7 @@ public class WeddingsController {
         }
 
 
-        this.weddingService.addingWedding(weddingRegDTO, principal);
+        this.weddingService.addingWedding(weddingRegDTO, user);
         return "redirect:/profile";
     }
 

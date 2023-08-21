@@ -59,7 +59,7 @@ public class AuthController {
     }
 
     @GetMapping("/profile")
-    public String profile(Model model, Principal principal){
+    public String profile(Principal principal){
         User user = authService.getUserByUsername(principal.getName());
         return "profile";
     }

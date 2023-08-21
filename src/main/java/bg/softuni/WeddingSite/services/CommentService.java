@@ -18,7 +18,7 @@ import java.util.Optional;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private AuthService authService;
+    private final AuthService authService;
     private WeddingService weddingService;
 
     public CommentService(CommentRepository commentRepository, AuthService authService, WeddingService weddingService) {
@@ -32,45 +32,34 @@ public class CommentService {
         return allByWeddingId;
     }
 
-    public void addingComment(CommentDto commentDto, Principal principal) {
-        User creator = this.authService.getUserByUsername(principal.getName());
-
+    public void addingComment(CommentDto commentDto, User creator) {
         Comment comment = new Comment();
         comment.setCreated(LocalDate.now());
         comment.setCreator(creator);
         comment.setText(commentDto.getText());
         comment.setWedding(commentDto.getWedding());
-
         commentRepository.save(comment);
-
     }
 
     public Optional<Comment> findCommentById(Long commentId) {
         return this.commentRepository.findById(commentId);
     }
-
-    public void deleteComment(Comment commentById) {
-        this.commentRepository.delete(commentById);
+    public void deleteComment(Comment comment) {
+        this.commentRepository.delete(comment);
     }
-
-
     public boolean isOwner(UserDetails userDetails, Long id) {
         if (id == null || userDetails == null) {
             return  false;
         }
-
         var comment = commentRepository.
                 findById(id).
                 orElse(null);
-
         if (comment == null) {
             return false;
         }
-
         return userDetails.getUsername().equals(comment.getCreator().getUsername()) ||
                 isUserAdmin(userDetails);
     }
-
     private boolean isUserAdmin(UserDetails userDetails) {
         // to do
         return userDetails.getAuthorities().
@@ -78,10 +67,8 @@ public class CommentService {
                 map(GrantedAuthority::getAuthority).
                 anyMatch(a -> a.equals("ROLE_" + UserRoles.ADMIN.name()));
     }
-
     public void deleteCommentById(Long id) {
         this.commentRepository.findById(id)
                 .ifPresent(commentRepository::delete);
     }
-
 }

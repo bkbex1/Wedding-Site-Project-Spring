@@ -1,7 +1,9 @@
 package bg.softuni.WeddingSite.controllers;
 
 import bg.softuni.WeddingSite.models.Restaurant;
+import bg.softuni.WeddingSite.models.User;
 import bg.softuni.WeddingSite.models.dtos.RestaurantDTO;
+import bg.softuni.WeddingSite.repository.UserRepository;
 import bg.softuni.WeddingSite.services.RestaurantService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -15,16 +17,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 
 @Controller
 public class VendorsController {
 
     private final RestaurantService restaurantService;
+    private final UserRepository userRepository;
 
-    public VendorsController(RestaurantService restaurantService) {
+    public VendorsController(RestaurantService restaurantService, UserRepository userRepository) {
         this.restaurantService = restaurantService;
+        this.userRepository = userRepository;
     }
     @ModelAttribute("restaurantDTO")
     public RestaurantDTO restaurantInit() {
@@ -62,6 +65,8 @@ public class VendorsController {
                                 BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes, Principal principal) throws Exception {
 
+        User user = this.userRepository.findByUsername(principal.getName()).get();
+
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("restaurantDTO", restaurantDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.restaurantDTO", bindingResult);
@@ -69,7 +74,7 @@ public class VendorsController {
             return "redirect:/createRestaurant";
         }
 
-        restaurantService.addingRestaurant(restaurantDTO, principal);
+        restaurantService.addingRestaurant(restaurantDTO, user);
 
         return "redirect:/profile";
     }

@@ -22,24 +22,19 @@ public class RestaurantService {
         this.userRepository = userRepository;
     }
 
-    public Boolean addingRestaurant(RestaurantDTO restaurantDTO, Principal principal) throws Exception {
-
-        Optional<Restaurant> restaurantOpt= this.restaurantRepository.findByName(restaurantDTO.getName());
-        Optional<User> principalByName = this.userRepository.findByUsername(principal.getName());
-
-
+    public Boolean addingRestaurant(RestaurantDTO restaurantDTO, User user) throws Exception {
+        Optional<Restaurant> restaurantOpt = this.restaurantRepository.findByName(restaurantDTO.getName());
         if (restaurantOpt.isPresent()){
             return true;
         }else{
             Restaurant restaurant = new Restaurant();
-            restaurant.setCreator(principalByName.get());
+            restaurant.setCreator(user);
             restaurant.setName(restaurantDTO.getName());
             restaurant.setCapacity(restaurantDTO.getCapacity());
             restaurant.setAddress(restaurantDTO.getAddress());
 
             restaurantRepository.save(restaurant);
         }
-
 
         return true;
     }
